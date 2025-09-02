@@ -1,9 +1,12 @@
-import { exec } from "@actions/exec";
+import { getExecOutput } from "@actions/exec";
 
 export default function () {
   return {
-    install: (...args) => exec("npm", ["install", ...args]),
-    publish: (...args) => exec("npm", ["publish", ...args]),
-    version: (...args) => exec("npm", ["version", ...args]),
+    install: async (...args) =>
+      (await getExecOutput("npm", ["install", ...args]))?.stdout,
+    publish: async (...args) =>
+      (await getExecOutput("npm", ["publish", ...args]))?.stdout,
+    version: async (...args) =>
+      (await getExecOutput("npm", ["version", ...args]))?.stdout,
   };
 }

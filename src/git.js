@@ -1,14 +1,22 @@
-import { exec } from "@actions/exec";
+import { getExecOutput } from "@actions/exec";
 
 export default function () {
   return {
-    commit: (...args) => exec("git", ["commit", ...args]),
-    config: (...args) => exec("git", ["config", ...args]),
-    push: (...args) => exec("git", ["push", ...args]),
-    tag: (...args) => exec("git", ["tag", ...args]),
-    clone: (...args) => exec("git", ["clone", ...args]),
-    checkout: (...args) => exec("git", ["checkout", ...args]),
-    fetch: (...args) => exec("git", ["fetch", ...args]),
-    pull: (...args) => exec("git", ["pull", ...args]),
+    commit: async (...args) =>
+      (await getExecOutput("git", ["commit", ...args]))?.stdout,
+    config: async (...args) =>
+      (await getExecOutput("git", ["config", ...args]))?.stdout,
+    push: async (...args) =>
+      (await getExecOutput("git", ["push", ...args]))?.stdout,
+    tag: async (...args) =>
+      (await getExecOutput("git", ["tag", ...args]))?.stdout,
+    clone: async (...args) =>
+      (await getExecOutput("git", ["clone", ...args]))?.stdout,
+    checkout: async (...args) =>
+      (await getExecOutput("git", ["checkout", ...args]))?.stdout,
+    fetch: async (...args) =>
+      (await getExecOutput("git", ["fetch", ...args]))?.stdout,
+    pull: async (...args) =>
+      (await getExecOutput("git", ["pull", ...args]))?.stdout,
   };
 }
