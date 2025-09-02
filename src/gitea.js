@@ -1,9 +1,6 @@
-function gitea(context) {
+export default function () {
   return Object.assign({}, context, {});
 }
-
-export default gitea;
-export { gitea };
 
 async function request(context) {
   const response = await fetch(

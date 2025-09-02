@@ -1,12 +1,9 @@
 import { exec } from "@actions/exec";
 
-function npm() {
+export default function () {
   return {
     install: (...args) => exec("npm", ["install", ...args]),
     publish: (...args) => exec("npm", ["publish", ...args]),
     version: (...args) => exec("npm", ["version", ...args]),
   };
 }
-
-export default npm;
-export { npm };

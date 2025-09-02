@@ -1,6 +1,6 @@
 import { exec } from "@actions/exec";
 
-function git() {
+export default function () {
   return {
     commit: (...args) => exec("git", ["commit", ...args]),
     config: (...args) => exec("git", ["config", ...args]),
@@ -12,6 +12,3 @@ function git() {
     pull: (...args) => exec("git", ["pull", ...args]),
   };
 }
-
-export default git;
-export { git };
