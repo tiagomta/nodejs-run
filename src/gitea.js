@@ -5,16 +5,16 @@ function gitea(context) {
 export default gitea;
 export { gitea };
 
-function request(context) {}
-
-const response = await fetch(
-  `${context.api_url}/repos/${repository}/issues/${issue.slice(1)}`,
-  {
-    method: "PATCH",
-    headers: {
-      Authorization: `token ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  }
-);
+async function request(context) {
+  const response = await fetch(
+    `${context.api_url}/repos/${repository}/issues/${issue.slice(1)}`,
+    {
+      method: "PATCH",
+      headers: {
+        Authorization: `token ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }
+  );
+}
