@@ -22,6 +22,7 @@ async function run() {
       );
     // eslint-disable-line no-eval
     else throw new Error(`Unknown target: ${target}`);
+    console.log("Result:", result);
     if (result instanceof Promise) core.setOutput("result", await result);
     else core.setOutput("result", result);
   } catch (error) {
