@@ -1,16 +1,16 @@
 import * as core from "@actions/core";
-import { git } from "./git.js";
-import { npm } from "./npm.js";
-import { gitea } from "./gitea.js";
+import gitInit from "./git.js";
+import npmInit from "./npm.js";
+import giteaInit from "./gitea.js";
 
 async function run() {
   try {
     const directory = core.getInput("working-directory");
     if (directory) process.chdir(directory);
     const target = core.getInput("target");
-    global.gitea = gitea(JSON.parse(core.getInput("context")));
-    global.git = git();
-    global.npm = npm();
+    global.gitea = giteaInit(JSON.parse(core.getInput("context")));
+    global.git = gitInit();
+    global.npm = npmInit();
     let result;
     if (target === "filepath")
       result = (await import(core.getInput("filepath"))).default;
