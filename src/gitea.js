@@ -1,17 +1,55 @@
 export default function (context) {
-  return Object.assign({}, context, {});
+  const get = api.bind(context, "get");
+  const post = api.bind(context, "post");
+  const patch = api.bind(context, "patch");
+  return Object.assign({}, context, {
+    issues: {
+      list: (query, repository = context.repository) =>
+        get(`/repos/${repository}/issues${objectToQueryString(query)}`),
+      update: (issue, data, repository = context.repository) =>
+        patch(`/repos/${repository}/issues/${issue.slice(1)}`, data),
+      close: (issue, repository = context.repository) =>
+        patch(`/repos/${repository}/issues/${issue.slice(1)}`, {
+          state: "closed",
+        }),
+    },
+    milestones: {
+      create: (title, repository = context.repository) =>
+        post(`/repos/${repository}/milestones`, { title }),
+      close: (milestone, repository = context.repository) =>
+        patch(`/repos/${repository}/milestones/${milestone}`, {
+          state: "closed",
+        }),
+    },
+    releases: {
+      create: (data, repository = context.repository) =>
+        post(`/repos/${repository}/releases`, data),
+    },
+  });
 }
 
-async function request(context) {
-  const response = await fetch(
-    `${context.api_url}/repos/${repository}/issues/${issue.slice(1)}`,
-    {
-      method: "PATCH",
-      headers: {
-        Authorization: `token ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    }
+async function api(method, url, data) {
+  const response = await fetch(`${this.api_url}${url}`, {
+    method: method.toUpperCase(),
+    headers: {
+      Authorization: `token ${this.token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) throw new Error(response.statusText);
+  return await response.json();
+}
+
+function objectToQueryString(obj) {
+  if (!obj || Object.keys(obj).length === 0) return "";
+  return (
+    "?" +
+    Object.entries(obj)
+      .map(
+        ([key, value]) =>
+          `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+      )
+      .join("&")
   );
 }
