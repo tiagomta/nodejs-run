@@ -1,18 +1,20 @@
-name: 'NPM Actions'
-description: 'NPM Actions install, publish, tag'
+name: "NPM Actions"
+description: "NPM Actions install, publish, tag"
 inputs:
   context:
-    description: 'Git Context'
+    description: "Git Context"
     default: ${{ toJson(github) }}
   working-directory:
-    description: 'Process directory'
-  token:
-    description: 'NPM Token'
-  command:
-    description: 'Allowed values: install, publish, version.'
+    description: "Process directory"
+  type:
+    description: "Type of run either filepath or inline"
+  filepath:
+    description: "Path to a JS file to execute"
+  script:
+    description: "Inline JavaScript code to execute"
 outputs:
-  result: 
-    description: ''
+  result:
+    description: ""
 runs:
-  using: 'node20'
-  main: 'index.js'
+  using: "node20"
+  main: "index.js"

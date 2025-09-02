@@ -1,22 +1,22 @@
 import * as core from "@actions/core";
-import { parse } from "./utils.js";
-import install from "./install.js";
-import publish from "./publish.js";
-import version from "./version.js";
-
-const commands = { install, publish, version };
+import { git } from "./git.js";
+import { npm } from "./npm.js";
+import { gitea } from "./gitea.js";
 
 async function run() {
   try {
     const directory = core.getInput("working-directory");
     if (directory) process.chdir(directory);
-    const [[command, ...args], options] = parse(
-      core.getInput("command").trim()
-    );
-    globalThis.context = JSON.parse(core.getInput("context"));
-    globalThis.token = core.getInput("token");
-    if (!commands[command]) throw new Error(`Unknown command: ${command}`);
-    const result = commands[command](options, ...args);
+    const target = core.getInput("target");
+    global.gitea = gitea(JSON.parse(core.getInput("context")));
+    global.git = git();
+    global.npm = npm();
+    let result;
+    if (target === "filepath")
+      result = (await import(core.getInput("filepath"))).default;
+    else if (target === "inline")
+      result = eval(core.getInput("inline")); // eslint-disable-line no-eval
+    else if (target !== "action") throw new Error(`Unknown target: ${target}`);
     if (result instanceof Promise) core.setOutput("result", await result);
     else core.setOutput("result", result);
   } catch (error) {
