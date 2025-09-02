@@ -11,16 +11,16 @@ async function run() {
     global.gitea = giteaInit(JSON.parse(core.getInput("context")));
     global.git = gitInit();
     global.npm = npmInit();
-    let result;
+    global.result = {};
     if (target === "filepath")
-      result = (await import(core.getInput("filepath"))).default;
+      (await import(core.getInput("filepath"))).default;
     else if (target === "inline")
-      result = eval(
-        `(async() => {${core.getInput("run")}})()`
-      ); // eslint-disable-line no-eval
+      eval(`(async() => {${core.getInput("run")}})()`);
+    // eslint-disable-line no-eval
     else throw new Error(`Unknown target: ${target}`);
-    if (result instanceof Promise) core.setOutput("result", await result);
-    else core.setOutput("result", result);
+    if (global.result instanceof Promise)
+      core.setOutput("result", await global.result);
+    else core.setOutput("result", global.result);
   } catch (error) {
     core.setFailed(error.message);
   }
