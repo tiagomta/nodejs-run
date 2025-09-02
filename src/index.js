@@ -15,7 +15,7 @@ async function run() {
     if (target === "filepath")
       result = (await import(core.getInput("filepath"))).default;
     else if (target === "inline")
-      result = eval(
+      result = await eval(
         `((result = {}) => ((async() => {${core.getInput(
           "run"
         )}})(), result))()`
