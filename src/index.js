@@ -15,7 +15,7 @@ async function run() {
     if (target === "filepath")
       (await import(core.getInput("filepath"))).default;
     else if (target === "inline")
-      await eval(`((async() => {${core.getInput("run")}})()`);
+      await eval(`(async() => {${core.getInput("run")}})()`);
     // eslint-disable-line no-eval
     else throw new Error(`Unknown target: ${target}`);
     console.log("Result:", global.result);
