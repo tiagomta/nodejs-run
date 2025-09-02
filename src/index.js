@@ -18,7 +18,6 @@ async function run() {
       await eval(`(async() => {${core.getInput("run")}})()`);
     // eslint-disable-line no-eval
     else throw new Error(`Unknown target: ${target}`);
-    console.log(typeof global.result);
     if (global.result instanceof Promise)
       core.setOutput("result", await global.result);
     else core.setOutput("result", global.result);
