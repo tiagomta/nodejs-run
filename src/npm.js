@@ -8,5 +8,7 @@ export default function () {
       (await getExecOutput("npm", ["publish", ...args]))?.stdout,
     version: async (...args) =>
       (await getExecOutput("npm", ["version", ...args]))?.stdout,
+    config: async (...args) =>
+      (await getExecOutput("npm", ["config", ...args]))?.stdout,
   };
 }
