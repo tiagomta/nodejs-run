@@ -20,5 +20,7 @@ export default function () {
       (await getExecOutput("git", ["pull", ...args]))?.stdout,
     merge: async (...args) =>
       (await getExecOutput("git", ["merge", ...args]))?.stdout,
+    reset: async (...args) =>
+      (await getExecOutput("git", ["reset", ...args]))?.stdout,
   };
 }
