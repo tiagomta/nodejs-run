@@ -7,9 +7,9 @@ export default function (context) {
       list: (query, repository = context.repository) =>
         get(`/repos/${repository}/issues${objectToQueryString(query)}`),
       update: (issue, data, repository = context.repository) =>
-        patch(`/repos/${repository}/issues/${issue.slice(1)}`, data),
+        patch(`/repos/${repository}/issues/${issue}`, data),
       close: (issue, repository = context.repository) =>
-        patch(`/repos/${repository}/issues/${issue.slice(1)}`, {
+        patch(`/repos/${repository}/issues/${issue}`, {
           state: "closed",
         }),
     },
