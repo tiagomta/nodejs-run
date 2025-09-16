@@ -37,7 +37,7 @@ async function api(method, url, data) {
     },
     body: JSON.stringify(data),
   });
-  if (!response.ok) throw new Error(`API error: ${JSON.stringify(response)}`);
+  if (!response.ok) throw new Error(`API error: ${await response.text()}`);
   return await response.json();
 }
 
